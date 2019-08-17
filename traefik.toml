@@ -1,0 +1,89 @@
+################################################################
+# Global configuration
+################################################################
+debug = true
+InsecureSkipVerify = true
+#defaultEntryPoints = ["http", "https"]
+defaultEntryPoints = ["http"]
+
+# Traefik logs file
+# If not defined, logs to stdout
+#
+# Optional
+#
+# traefikLogsFile = "/var/log/traefik/traefik.log"
+[traefikLog]
+  filePath = "/var/log/traefik/traefik.log"
+
+
+# Access logs file
+#
+# Optional
+#
+# accessLogsFile = "/var/log/traefik/access.log"
+[accessLog]
+  filePath = "/var/log/traefik/access.log"
+
+
+[respondingTimeouts]
+  readTimeout = "600s"
+  idleTimeout = "600s"
+  writeTimeout = "600s"
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+#  [entryPoints.https]
+#    address = ":443"
+#  [entryPoints.https.tls]
+#    [[entryPoints.https.tls.certificates]]
+#      certFile = "/etc/traefik/certs/certificate.pem"
+#      keyFile = "/etc/traefik/certs/certificate.key"
+
+################################################################
+# Web configuration backend
+################################################################
+[api]
+entrypoint = "traefik"
+dashboard = true
+
+################################################################
+# Docker configuration backend
+################################################################
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "dev.zengo.eu"
+watch = true
+exposedbydefault = false
+network = "traefik"
+swarmMode = false
+
+# ha van localba futó web server
+#[file]
+#[backends]
+#  [backends.backend0]
+#    [backends.backend0.servers]
+#      [backends.backend0.servers.server0]
+#        url = "http://ip.1.2.3:8000"
+#        weight = 1
+#  [backends.backend1]
+#    [backends.backend1.servers]
+#      [backends.backend1.servers.server0]
+#        url = "http://hostnév:8000"
+#        weight = 1
+
+#[frontends]
+#  [frontends.frontend1]
+#    entryPoints = ["http"]
+#    backend = "backend0"
+#    passHostHeader = true
+#    [frontends.frontend1.routes]
+#      [frontends.frontend1.routes.route0]
+#        rule = "Host:site.dev, admin.dev, localhost"
+
+#  [frontends.frontend2]
+#    entryPoints = ["http"]
+#    backend = "backend1"
+#    passHostHeader = true
+#      [frontends.frontend2.routes.route0]
+#        rule = "Host:második.hostnév"
