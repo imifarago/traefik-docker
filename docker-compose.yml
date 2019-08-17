@@ -20,7 +20,7 @@ services:
 #      - "traefik.domain=web"
       - "traefik.protocol=http"
     networks:
-      - web
+      - traefik
 
 networks:
   traefik:
