@@ -4,7 +4,7 @@ Traefik docker-compose project a konténer alapú fejlesztéshez
 
 ## Nézd át a config filet (traefik.toml)
 
-## Létre kell hozni a saját docket networkot: `docker network create traefik`
+## Létre kell hozni a saját docket networkot: `docker network create web`
 Ezek után, azok a web serverek, amiket el akarsz érni a proxyn keresztül, a network web-re kell tenni
 
 ## Indítsd el: `docker-compose up -d`

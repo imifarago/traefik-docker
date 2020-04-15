@@ -1,27 +1,37 @@
-version: '3'
+version: '3.4'
 
 services:
   traefik-proxy:
-    image: traefik:1.7
+    image: traefik:cantal
     restart: always
-    command: --api --docker
+    command: 
+      - --global.sendAnonymousUsage=false
+      - --entrypoints.http.address=:80
+      - --entrypoints.traefik.address=:8080
+      - --api=true
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --log=true
+      - --log.level=DEBUG # (Default: error) DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.network=web
+      - --providers.docker.swarmMode=false
     ports:
       - "80:80"
-      - "443:443"
+#      - "443:443"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik.toml:/etc/traefik/traefik.toml
+# 2.0-nál a command-ban beállítjuk azokat a dolgokat, amik előtte a toml-ben voltak
+#      - ./traefik.toml:/etc/traefik/traefik.toml
     labels:
-      - "traefik.docker.network=traefik"
-#      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.docker.network=web"
       - "traefik.enable=false"
-      - "traefik.port=8080"
-#      - "traefik.domain=web"
       - "traefik.protocol=http"
     networks:
-      - traefik
+      - web
 
 networks:
-  traefik:
+  web:
     external: true
